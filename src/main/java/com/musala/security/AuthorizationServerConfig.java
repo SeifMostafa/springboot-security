@@ -24,8 +24,8 @@ import java.security.KeyPair;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-   // public static final String RESOURCE_ID = "Product";
-    public static final String RESOURCE_ID = "couponservice";
+
+    public static final String RESOURCE_ID = "Product";
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -53,9 +53,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService);
     }
 
+//    @Override
+//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//        clients.inMemory().withClient("couponclientapp").secret(passwordEncoder.encode("9999")).authorizedGrantTypes("password", "refresh_token")
+//                .scopes("read", "write").resourceIds(RESOURCE_ID);
+//    }
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("couponclientapp").secret(passwordEncoder.encode("9999")).authorizedGrantTypes("password", "refresh_token")
+        clients.inMemory().withClient("productclientapp").secret(passwordEncoder.encode("9999")).authorizedGrantTypes("password", "refresh_token")
                 .scopes("read", "write").resourceIds(RESOURCE_ID);
     }
 //    @Override
@@ -70,7 +75,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource(keyFile), password.toCharArray());
         KeyPair keyPair = keyStoreKeyFactory.getKeyPair(alias);
         jwtAccessTokenConverter.setKeyPair(keyPair);
- //      jwtAccessTokenConverter.setSigningKey("testkey");
+
+       // jwtAccessTokenConverter.setSigningKey("testkey");
         return jwtAccessTokenConverter;
     }
 
